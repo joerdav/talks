@@ -2,7 +2,7 @@
   "name": "slidev",
   "private": true,
   "scripts": {
-    "build": "slidev build --base /talks/dont-forget-about-memory",
+    "build": "slidev build --base /dont-forget-about-memory",
     "dev": "slidev --open",
     "export": "slidev export"
   },
