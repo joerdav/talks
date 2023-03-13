@@ -35,17 +35,17 @@ jobs:
         run: |
           xc build
           
-      #- id: 'auth'
-        #uses: 'google-github-actions/auth@v0'
-        #with:
-          #credentials_json: '${{ secrets.GCP_SA_KEY }}'
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
-      #- id: 'deploy'
-        #uses: 'google-github-actions/deploy-appengine@v0'
-        #with:
-          #project_id: ${{ secrets.GCP_PROJECT }}
-          #working_directory: ./doc
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-appengine@v0'
+        with:
+          project_id: ${{ secrets.GCP_PROJECT }}
+          working_directory: ./dist
 
-      ## Example of using the output
-      #- id: 'test'
-        #run: 'curl "${{ steps.deploy.outputs.url }}"'
+      # Example of using the output
+      - id: 'test'
+        run: 'curl "${{ steps.deploy.outputs.url }}"'
