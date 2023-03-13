@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Talks - Joe Davidson</title>
+</head>
+<body>
+    <h1>Taks</h1>
+    <ul>
+	    {% for talk in talks %}
+	    <li>
+	    	<a href="/{{talk}}/">{{ talk }}</a>
+	    </li>
+	    {% endfor %}
+    </ul>
+</body>
