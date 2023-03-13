@@ -3,5 +3,8 @@ api_version: 1
 threadsafe: true
 
 handlers:
+- url: /(.*)/
+  static_files: dist/\1/index.html
+  upload: public/(.*)
 - url: /
   static_dir: dist/
