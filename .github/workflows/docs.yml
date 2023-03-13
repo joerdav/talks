@@ -1,0 +1,51 @@
+name: docs
+on:
+  push:  
+    branches:
+      - main
+    tags: 
+      - '*' 
+jobs:
+  deploy:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+            
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Install Yarn
+        run: |
+          npm i -g yarn
+      - uses: actions/setup-go@v3
+        name: Install Go
+        with:
+          go-version: '^1.20.0'
+      - name: Install xc
+        run: |
+          go install github.com/joerdav/xc/cmd/xc@latest
+      - name: Build
+        run: |
+          xc build
+          
+      #- id: 'auth'
+        #uses: 'google-github-actions/auth@v0'
+        #with:
+          #credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      #- id: 'deploy'
+        #uses: 'google-github-actions/deploy-appengine@v0'
+        #with:
+          #project_id: ${{ secrets.GCP_PROJECT }}
+          #working_directory: ./doc
+
+      ## Example of using the output
+      #- id: 'test'
+        #run: 'curl "${{ steps.deploy.outputs.url }}"'
