@@ -8,7 +8,6 @@ requires: clean
 
 ```
 mkdir dist
-mkdir dist/talks
 for pathname in $( find . -maxdepth 3 -name package.json -type f -prune ); do
 	p=$(echo $pathname | cut -d'/' -f2)
 	echo $p
