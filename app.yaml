@@ -3,14 +3,14 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /
-  script: index.app
-- url: /(.*)/
+- url: /(.+)/
   static_files: dist/\1/index.html
   upload: public/(.*)
-- url: /
+- url: /(.+)
   static_dir: dist/
   application_readable: true
+- url: /
+  script: index.app
 libraries:
 - name: flask
   version: latest
