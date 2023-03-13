@@ -44,7 +44,7 @@ jobs:
         uses: 'google-github-actions/deploy-appengine@v0'
         with:
           project_id: ${{ secrets.GCP_PROJECT }}
-          working_directory: ./dist
+          working_directory: ./
 
       # Example of using the output
       - id: 'test'
