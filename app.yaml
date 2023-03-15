@@ -10,6 +10,8 @@ handlers:
   static_files: dist/\1/index.html
   upload: dist/(.*)
 
+- url: /assets
+  static_dir: dist/assets
 - url: /
   static_dir: dist/
   application_readable: true
