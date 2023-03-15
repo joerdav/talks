@@ -12,6 +12,8 @@ handlers:
 
 - url: /assets
   static_dir: dist/assets
+  application_readable: true
+
 - url: /
   static_dir: dist/
   application_readable: true
