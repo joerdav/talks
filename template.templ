@@ -1,0 +1,21 @@
+package main
+
+import "fmt"
+
+templ template(talks []string) {
+	<!DOCTYPE html>
+	<html lang="en"/>
+	<head>
+	    <title>Talks - Joe Davidson</title>
+	</head>
+	<body>
+	    <h1>Talks</h1>
+	    <ul>
+		    for _, t := range talks {
+			    <li>
+				<a href={templ.SafeURL(fmt.Sprintf("/%s/", t))}>{ t }</a>
+			    </li>
+		    }
+	    </ul>
+	</body>
+}
