@@ -76,7 +76,6 @@ theme: eloc
 
 ---
 
-
 `remind me...`
 
 <!--
@@ -94,15 +93,6 @@ theme: eloc
 
 <!--
 - visualize memory as a line
--->
-
----
-
-`sub esp, 0x10`
-
-<!--
-- any robots here today
-- move the stack pointer 
 -->
 
 ---
@@ -153,12 +143,12 @@ func main() {
 
 ```go
 func main() {
-	a := newRandomString()
+	a := readString()
 }
 ```
 
 <!--
-- how much to advance
+- how much to advance stack
 -->
 
 ---
@@ -171,14 +161,7 @@ func newUser() *User {
 
 <!--
 - don't lose the memory
--->
-
----
-
-`malloc`
-
-<!--
-- hey operating system
+- hanging reference
 -->
 
 ---
@@ -189,7 +172,6 @@ func newUser() *User {
 - does he hate us
 - trying to be the most tedious talk
 -->
-
 ---
 
 `efficiency`
@@ -201,9 +183,29 @@ func newUser() *User {
 
 ---
 
+`sub esp, 0x10`
+<!--
+- any robots here today
+- move the stack pointer 
+-->
+
+---
+
+`malloc`
+
+<!--
+- hey operating system
+- slow to allocate
+- slower to access
+- harder to manage
+-->
+
+---
+
 `manual memory management`
 
 <!--
+
 - c
 
 - malloc/free
@@ -211,12 +213,13 @@ func newUser() *User {
 - something freeing about using malloc
 
 - wild west
+- 
 -->
 
 ---
 
 ```c
-char *str = malloc(sizeof(*str));
+char *str = malloc(sizeof(char)*4);
 strcpy(str, "Joe");
 printf("Hello, %s\n", str);
 free(str);
@@ -224,17 +227,35 @@ free(str);
 
 <!--
 - Manual
+- But in control
 - Don't always have to free
 -->
 
 ---
 
-`garbage collectors`
+`garbage collection`
 
 <!--
 - go python java dotnet
 
+- the runtime handles it 
+-->
+
+---
+
+```go
+sayHello := func (name string) {
+	println("Hello,", name)
+}
+myName := "Joe"
+sayHello(myName)
+```
+<!--
+- how does it know
+- it has to stop the world
+
 - stop the world
+- inadvertently allocate
 - this is slow but can be tuned
 -->
 
@@ -245,7 +266,23 @@ free(str);
 <!--
 - swift
 - count the references to something
-- even slower
+-->
+
+---
+
+```swift
+{
+	let sayHello = { (name: String)  in // #2: +1 ref
+	    print("Hello, \(name)")
+	} // #3: -1 ref
+
+	var my_name = "Joe" // #1: +1 ref
+	sayHello(my_name)
+} // #4: -1 ref deallocate
+```
+
+<!--
+- slow
 -->
 
 ---
@@ -255,4 +292,24 @@ free(str);
 <!--
 - rust
 - define the ownership of all memory
+-->
+
+---
+
+```rust
+fn say_hello(name: String) {
+	println!("Hello, {}", name);
+}
+
+fn main() {
+	let my_name = String::from("Joe");
+	say_hello(my_name);
+	// name no longer valid
+}
+```
+
+<!--
+- explain
+- different scopes own variables
+- setting a variable changes ownership
 -->

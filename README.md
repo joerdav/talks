@@ -2,6 +2,15 @@
 
 ## Tasks
 
+### run
+
+inputs: NAME
+
+```
+cd $NAME
+yarn dev
+```
+
 ### build
 
 requires: clean
