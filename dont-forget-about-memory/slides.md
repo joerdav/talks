@@ -6,10 +6,9 @@ theme: eloc
 `don't forget about memory` 
 
 <!--
-- talk about memory
-- recent obsession
-- what brought on this obsession
-- hyper optimisation
+- recent hobby/obsession
+- what triggered it
+- start with a story
 -->
 
 ---
@@ -17,8 +16,12 @@ theme: eloc
 `story time`
 
 <!--
-- learning go
-- learned about benchmarks
+- the go community
+- wasn't always that way
+- roots in c#
+- not here to talk about go
+
+- benchmarks
 - out of the box
 - run code many times
 - used on templ
@@ -30,7 +33,7 @@ theme: eloc
 
 <!--
 - for stongly typed html templates in Go
-- templ to Go
+- templ to Go to html
 - 10MB file
 -->
 
@@ -104,7 +107,7 @@ l := byte('a')                  // 01100001
 
 r := rune('😂')                 // 00000000000000011111011000000010
 
-num := int32(8)                 // 0000000000000000000000000000000000000000000000000000000000000001
+num := int32(8)                 // 0000000000000000000000000000000000000000000000000000000000001000
 
 ui := uint8(255)                // 11111111
 
@@ -343,9 +346,9 @@ free(str);
 ```
 
 <!--
-- manual
 - control
 - bugs: access freed mem, free twice, forget all together
+- can be quick, error prone, owness on the developer
 -->
 
 ---
@@ -361,7 +364,7 @@ free(str);
 
 ```swift
 {
-	let sayHello = { (name: String)  in // #2: +1 ref
+	func sayHello(name: String) { // #2: +1 ref
 	    print("Hello, \(name)")
 	} // #3: -1 ref
 
@@ -371,8 +374,9 @@ free(str);
 ```
 
 <!--
+- runtime tracks heap
 - dangling references are tracked
-- slow
+- slow, robust, owness on the runtime
 -->
 
 ---
@@ -403,6 +407,7 @@ fn main() {
 - different scopes own variables
 - setting a variable changes ownership
 - can't create dangling references
+- quick, safe, owness on the developer with guidance
 -->
 
 ---
@@ -432,5 +437,67 @@ fn main() {
 - it has to stop the world
 
 - inadvertently allocate
-- this is slow but can be tuned
+- quick, safe, owness on runtime, with optional dev input
+-->
+
+---
+
+```go
+func newHand() []float32 {
+	return []float32{
+		6,
+		6.11,
+		6.20,
+		6.15,
+		5.8,
+	}
+}
+
+func averageFingerSize() float32 {
+	hand := newHand()
+	return (hand[0] +
+		hand[1] +
+		hand[2] +
+		hand[3] +
+		hand[4]) / float32(len(hand))
+}
+```
+
+```
+BenchmarkFingerSize-12        45860188                26.40 ns/op           24 B/op          1 allocs/op
+```
+
+<!--
+- kill it with fire
+-->
+
+---
+
+```go {1-2}
+func newHand() [5]float32 {
+	return [5]float32{
+		6,
+		6.11,
+		6.20,
+		6.15,
+		5.8,
+	}
+}
+
+func averageFingerSize() float32 {
+	hand := newHand()
+	return (hand[0] +
+		hand[1] +
+		hand[2] +
+		hand[3] +
+		hand[4]) / float32(len(hand))
+}
+```
+
+```
+BenchmarkFingerSize-12        63423622                15.90 ns/op            0 B/op          0 allocs/op
+```
+
+<!--
+- 30%
 -->
