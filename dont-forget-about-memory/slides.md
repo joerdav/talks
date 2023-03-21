@@ -471,6 +471,26 @@ BenchmarkCalculator-12          191312350                6.231 ns/op           0
 
 ---
 
+```go
+func BenchmarkCalculator(b *testing.B) {
+	calc := newCalculator()
+	for i := 0; i < b.N; i++ {
+		calc.addSomeStuff(1, 2)
+	}
+}
+```
+
+```
+BenchmarkCalculator-12          191312350                6.231 ns/op           0 B/op          0 allocs/op
+```
+
+<!--
+- anatomy of a benchmark test
+-->
+
+
+---
+
 ```go{2}
 type calculator struct {
 	add concreteAdder
@@ -706,6 +726,15 @@ constant sized variables
 string concatination creates a new string
 
 don't be afraid to hyper-optimize
+```
+
+---
+
+```
+go   - out of the box
+rust - out of the box
+node - jest-bench
+java - caliper?
 ```
 
 ---
