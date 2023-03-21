@@ -488,6 +488,19 @@ BenchmarkCalculator-12          191312350                6.231 ns/op           0
 - anatomy of a benchmark test
 -->
 
+---
+
+```
+$ go test -gcflags '-N -l' -bench=. -benchmem .
+goos: darwin
+goarch: amd64
+pkg: examples/interfaces
+cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
+BenchmarkCalculator-12          191312350                6.231 ns/op           0 B/op          0 allocs/op
+PASS
+ok      examples/interfaces     2.000s
+
+```
 
 ---
 
@@ -728,13 +741,14 @@ string concatination creates a new string
 don't be afraid to hyper-optimize
 ```
 
----
-
-```
+<!--
 go   - out of the box
-rust - out of the box
-node - jest-bench
-java - caliper?
-```
 
----
+rust - out of the box
+
+node - jest-bench
+
+java - caliper?
+
+dotnet - BenchmarkDotNet
+-->
