@@ -1,5 +1,6 @@
 ---
 theme: eloc
+lineNumbers: true
 ---
 
 
@@ -442,7 +443,60 @@ fn main() {
 
 ---
 
-```go
+```go{all|1-11|13-15|17-18}
+type calculator struct {
+	add adder
+}
+func newCalculator() calculator {
+	return calculator{
+		add: concreteAdder{},
+	}
+}
+func (c calculator) addSomeStuff(a, b int) int {
+	return c.add.Add(a, b)
+}
+
+type adder interface {
+	Add(a, b int) int
+}
+
+type concreteAdder struct{}
+func (ca concreteAdder) Add(a, b int) int { return a + b }
+```
+
+```
+BenchmarkCalculator-12          191312350                6.231 ns/op           0 B/op          0 allocs/op
+```
+
+---
+
+```go{2}
+type calculator struct {
+	add concreteAdder
+}
+func newCalculator() calculator {
+	return calculator{
+		add: concreteAdder{},
+	}
+}
+func (c calculator) addSomeStuff(a, b int) int {
+	return c.add.Add(a, b)
+}
+
+type concreteAdder struct{}
+func (ca concreteAdder) Add(a, b int) int { return a + b }
+```
+
+```
+ BenchmarkCalculator-12          310463655                3.881 ns/op           0 B/op          0 allocs/op
+```
+<!--
+- 40%
+-->
+
+---
+
+```go {all|12|1-2}
 func newHand() []float32 {
 	return []float32{
 		6,
@@ -468,6 +522,7 @@ BenchmarkFingerSize-12        45860188                26.40 ns/op           24 B
 ```
 
 <!--
+- no compiler optimisations
 - kill it with fire
 -->
 
@@ -501,3 +556,144 @@ BenchmarkFingerSize-12        63423622                15.90 ns/op            0 B
 <!--
 - 30%
 -->
+
+---
+
+```go{all|4}
+func createAString() string {
+	str := ""
+	for i := 0; i < 100; i++ {
+		str += "some string"
+	}
+	return str
+}
+```
+
+```
+BenchmarkRandomGuids-12           105433             10166 ns/op           58872 B/op         99 allocs/op
+```
+
+---
+
+```go{2-6}
+func createAString() string {
+	var build strings.Builder
+	for i := 0; i < 100; i++ {
+		build.WriteString("some string")
+	}
+	return build.String()
+}
+```
+
+```
+BenchmarkRandomGuids-12           976308              1225 ns/op            3312 B/op          8 allocs/op
+```
+<!--
+- 88%
+-->
+
+---
+
+`xcfile.dev`
+
+<!--
+- task runner think npm scripts or makefile
+-->
+
+---
+
+```md
+# Level 1
+```
+
+or
+
+```md
+Level 1
+===
+```
+
+<!--
+- task runner think npm scripts or makefile
+-->
+
+---
+
+```go{all|2,5}
+func altHeadingLevel(nextLine string) int {
+	if regexp.MustCompile("^-+$").MatchString(nextLine) {
+		return 2
+	}
+	if regexp.MustCompile("^=+$").MatchString(nextLine) {
+		return 1
+	}
+	return 0
+}
+```
+
+```
+BenchmarkHeading2-12              546982              2173 ns/op            2377 B/op         35 allocs/op
+BenchmarkHeading1-12              275372              4334 ns/op            4754 B/op         70 allocs/op
+BenchmarkHeading0-12              275092              4263 ns/op            4754 B/op         70 allocs/op
+```
+
+---
+
+```go{1-4}
+var (
+	level2Heading = regexp.MustCompile("^-+$")
+	level1Heading = regexp.MustCompile("^=+$")
+)
+
+func altHeadingLevel(nextLine string) int {
+	if level2Heading.MatchString(nextLine) {
+		return 2
+	}
+	if level1Heading.MatchString(nextLine) {
+		return 1
+	}
+	return 0
+}
+```
+
+```
+BenchmarkHeading2-12            14360788                75.66 ns/op            0 B/op          0 allocs/op
+BenchmarkHeading1-12            10675314               111.3 ns/op             0 B/op          0 allocs/op
+BenchmarkHeading0-12            16979590                69.95 ns/op            0 B/op          0 allocs/op
+```
+
+<!--
+- 98%
+-->
+
+---
+
+```go{1-11}
+func stringOnlyContains(input string, matcher rune) bool {
+	if len(input) == 0 {
+		return false
+	}
+	for i := range input {
+		if []rune(input)[i] != matcher {
+			return false
+		}
+	}
+	return true
+}
+
+func altHeadingLevel(nextLine string) int {
+	if stringOnlyContains(nextLine, '-') {
+		return 2
+...
+```
+
+```
+BenchmarkHeading2-12            30728582                38.91 ns/op            0 B/op          0 allocs/op
+BenchmarkHeading1-12            22408417                53.66 ns/op            0 B/op          0 allocs/op
+BenchmarkHeading0-12            21599406                56.16 ns/op            0 B/op          0 allocs/op
+```
+
+<!--
+- 99%
+-->
+
