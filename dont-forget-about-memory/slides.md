@@ -8,7 +8,7 @@ lineNumbers: true
 
 <!--
 - recent hobby/obsession
-- what triggered it
+- hyper optimization
 - start with a story
 -->
 
@@ -45,7 +45,7 @@ lineNumbers: true
 <!--
 - baseline to start improving
 - go profile tools
-- write to memory not to a file
+- sys calls
 -->
 
 ---
@@ -63,6 +63,7 @@ lineNumbers: true
 ```
 
 <!--
+- write to memory not to file
 - not always about using the least amount of memory
 - some cases allocating more is better
 -->
@@ -697,3 +698,14 @@ BenchmarkHeading0-12            21599406                56.16 ns/op            0
 - 99%
 -->
 
+---
+
+```
+constant sized variables
+
+string concatination creates a new string
+
+don't be afraid to hyper-optimize
+```
+
+---
