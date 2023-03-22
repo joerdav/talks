@@ -9,7 +9,7 @@ lineNumbers: true
 <!--
 - recent hobby/obsession
 - hyper optimization
-- start with a story
+- let me tell you how it began
 -->
 
 ---
@@ -18,9 +18,7 @@ lineNumbers: true
 
 <!--
 - the go community
-- wasn't always that way
-- roots in c#
-- not here to talk about go
+- keep tabs on what go offers
 
 - benchmarks
 - out of the box
@@ -33,7 +31,7 @@ lineNumbers: true
 `github.com/a-h/templ`
 
 <!--
-- for stongly typed html templates in Go
+- html templating library
 - templ to Go to html
 - 10MB file
 -->
@@ -74,17 +72,7 @@ lineNumbers: true
 
 <!--
 - so my obsession began
-- let me tell you some things I learned
-- not a realistic use case
-- but can help you write better programs
--->
-
----
-
-`remind me...`
-
-<!--
-- back to basics
+- I want to tell you some things
 - align our mental models
 -->
 
@@ -135,10 +123,8 @@ func foo() {
 	if x {
 		b := 2
 		println(b)
-		if y {
-			c := 3
-			println(c)
-		}
+		c := 3
+		println(c)
 	}
 }
 ```
@@ -149,17 +135,15 @@ func foo() {
 
 ---
 
-```go {1}
+```go {1-2}
 func foo() {
 	a := 1
 	println(a)
 	if x {
 		b := 2
 		println(b)
-		if y {
-			c := 3
-			println(c)
-		}
+		c := 3
+		println(c)
 	}
 }
 ```
@@ -175,42 +159,15 @@ func foo() {
 
 ---
 
-```go {4}
+```go {4-9}
 func foo() {
 	a := 1
 	println(a)
 	if x {
 		b := 2
 		println(b)
-		if y {
-			c := 3
-			println(c)
-		}
-	}
-}
-```
-
-```
-0000000000000000000000000000000100000000000000000000000000000010
-```
-
-<!--
-- frames
-- stack overflow
--->
----
-
-```go {7}
-func foo() {
-	a := 1
-	println(a)
-	if x {
-		b := 2
-		println(b)
-		if y {
-			c := 3
-			println(c)
-		}
+		c := 3
+		println(c)
 	}
 }
 ```
@@ -218,26 +175,7 @@ func foo() {
 ```
 000000000000000000000000000000010000000000000000000000000000001000000000000000000000000000000011
 ```
----
 
-```go {10}
-func foo() {
-	a := 1
-	println(a)
-	if x {
-		b := 2
-		println(b)
-		if y {
-			c := 3
-			println(c)
-		}
-	}
-}
-```
-
-```
-0000000000000000000000000000000100000000000000000000000000000010
-```
 ---
 
 ```go {11}
@@ -279,14 +217,13 @@ func main() {
 
 ```go
 func newUser() *User {
-	return &User{ Name: "Joe" }
+	user := User{ ID: 1 }
+	return &user
 }
 ```
 
 <!--
-- can I just pop the stack?
-- when should I remove this data?
-- dangling reference
+- explain pointers
 -->
 
 ---
@@ -295,15 +232,14 @@ func newUser() *User {
 
 <!--
 - does he hate us
-- trying to be the most tedious talk
+- send us to sleep
 -->
 ---
 
 `efficiency`
 
 <!--
-- speed
-- heap slower, stack faster
+- stack memory is more efficient
 -->
 
 ---
@@ -340,7 +276,7 @@ func newUser() *User {
 
 ---
 
-```c
+```c{all|1|4}
 char *str = malloc(sizeof(char)*4);
 strcpy(str, "Joe");
 printf("Hello, %s\n", str);
@@ -364,7 +300,7 @@ free(str);
 
 ---
 
-```swift
+```swift{all|6|7|2|4|8}
 {
 	func sayHello(name: String) { // #2: +1 ref
 	    print("Hello, \(name)")
@@ -444,17 +380,9 @@ fn main() {
 
 ---
 
-```go{all|1-11|13-15|17-18}
-type calculator struct {
-	add adder
-}
-func newCalculator() calculator {
-	return calculator{
-		add: concreteAdder{},
-	}
-}
-func (c calculator) addSomeStuff(a, b int) int {
-	return c.add.Add(a, b)
+```go{all|1-3|5-7|9-11}
+func caclulateStuff(add adder, a, b int) int {
+	return add.Add(a, b)
 }
 
 type adder interface {
@@ -462,20 +390,16 @@ type adder interface {
 }
 
 type concreteAdder struct{}
-func (ca concreteAdder) Add(a, b int) int { return a + b }
-```
 
-```
-BenchmarkCalculator-12          191312350                6.231 ns/op           0 B/op          0 allocs/op
+func (ca concreteAdder) Add(a, b int) int { return a + b }
 ```
 
 ---
 
 ```go
 func BenchmarkCalculator(b *testing.B) {
-	calc := newCalculator()
 	for i := 0; i < b.N; i++ {
-		calc.addSomeStuff(1, 2)
+		caclulateStuff(concreteAdder{}, 1, 2)
 	}
 }
 ```
@@ -490,7 +414,7 @@ BenchmarkCalculator-12          191312350                6.231 ns/op           0
 
 ---
 
-```
+```{all|6}
 $ go test -gcflags '-N -l' -bench=. -benchmem .
 goos: darwin
 goarch: amd64
@@ -504,20 +428,13 @@ ok      examples/interfaces     2.000s
 
 ---
 
-```go{2}
-type calculator struct {
-	add concreteAdder
-}
-func newCalculator() calculator {
-	return calculator{
-		add: concreteAdder{},
-	}
-}
-func (c calculator) addSomeStuff(a, b int) int {
-	return c.add.Add(a, b)
+```go{1}
+func caclulateStuff(add concreteAdder, a, b int) int {
+	return add.Add(a, b)
 }
 
 type concreteAdder struct{}
+
 func (ca concreteAdder) Add(a, b int) int { return a + b }
 ```
 

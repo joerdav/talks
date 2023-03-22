@@ -2,18 +2,8 @@
 
 package interfaces
 
-type calculator struct {
-	add adder
-}
-
-func newCalculator() calculator {
-	return calculator{
-		add: concreteAdder{},
-	}
-}
-
-func (c calculator) addSomeStuff(a, b int) int {
-	return c.add.Add(a, b)
+func caclulateStuff(add adder, a, b int) int {
+	return add.Add(a, b)
 }
 
 type adder interface {
