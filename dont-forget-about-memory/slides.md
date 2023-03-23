@@ -178,17 +178,15 @@ func foo() {
 
 ---
 
-```go {11}
+```go {9}
 func foo() {
 	a := 1
 	println(a)
 	if x {
 		b := 2
 		println(b)
-		if y {
-			c := 3
-			println(c)
-		}
+		c := 3
+		println(c)
 	}
 }
 ```
