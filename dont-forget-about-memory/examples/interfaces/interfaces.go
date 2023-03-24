@@ -2,7 +2,7 @@
 
 package interfaces
 
-func caclulateStuff(add adder, a, b int) int {
+func calculateStuff(add adder, a, b int) int {
 	return add.Add(a, b)
 }
 

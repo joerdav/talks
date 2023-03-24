@@ -379,7 +379,7 @@ fn main() {
 ---
 
 ```go{all|1-3|5-7|9-11}
-func caclulateStuff(add adder, a, b int) int {
+func calculateStuff(add adder, a, b int) int {
 	return add.Add(a, b)
 }
 
@@ -397,7 +397,7 @@ func (ca concreteAdder) Add(a, b int) int { return a + b }
 ```go
 func BenchmarkCalculator(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		caclulateStuff(concreteAdder{}, 1, 2)
+		calculateStuff(concreteAdder{}, 1, 2)
 	}
 }
 ```
@@ -427,7 +427,7 @@ ok      examples/interfaces     2.000s
 ---
 
 ```go{1}
-func caclulateStuff(add concreteAdder, a, b int) int {
+func calculateStuff(add concreteAdder, a, b int) int {
 	return add.Add(a, b)
 }
 
