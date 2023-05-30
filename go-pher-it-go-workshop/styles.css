@@ -1,0 +1,7 @@
+.token.inserted {
+	color: var(--prism-string)
+
+}
+:root {
+	--prism-tab-size: 5
+}
