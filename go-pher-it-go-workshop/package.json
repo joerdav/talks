@@ -2,7 +2,7 @@
   "name": "slidev",
   "private": true,
   "scripts": {
-    "build": "slidev build --base /dont-forget-about-memory",
+    "build": "slidev build --base /go-pher-it-go-workshop",
     "dev": "slidev --open",
     "export": "slidev export"
   },
